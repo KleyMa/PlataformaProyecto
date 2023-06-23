@@ -10,7 +10,7 @@ class InventarioController extends Controller
 {
     public function index(Request $request)
     {
-        $equipos = Equipo::all();
+        $equipos = Equipo::paginate(3);
         return view('inventario', compact('equipos'));
     }
 

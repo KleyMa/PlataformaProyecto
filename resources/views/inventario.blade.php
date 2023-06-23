@@ -38,8 +38,9 @@
                     </div>
                 </div>
             </div>
-    @include('equipos.delete')
-    @endforeach
+        @include('equipos.delete')
+        @endforeach
+        {{ $equipos->links('') }}
         </div>
     </div>
 </x-layouts.app>

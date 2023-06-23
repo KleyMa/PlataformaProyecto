@@ -3,8 +3,16 @@
         <div class="d-md-flex justify-content-md-end">
             <h3>ID en inventario: {{$equipo->id}}</h3>
         </div>
-        <h1>{{$equipo->nombre}}</h1>
+        <div class="container mb-4">
+            <h1>{{$equipo->nombre}}</h1>
+        </div>
         <div class="container">
+            @if($equipo->manual)
+            <div class="d-md-flex justify-content-md-end">
+                <label>Manual del equipo: </label>
+                <a target="_blank" href="{{ asset($equipo->manual) }}">PDF</a>
+            </div>
+            @endif
             <label>Tipo de equipo: {{$equipo->tipo_de_equipo}}</label><br>
             <label>Descripcion: {{$equipo->descripcion}}</label><br>
             <label>Fabricante: {{$equipo->fabricante}}</label><br>
