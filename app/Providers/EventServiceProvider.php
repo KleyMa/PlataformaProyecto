@@ -7,7 +7,9 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Logout;
+use App\Events\UserActionInventory;
 use App\Listeners\LogUserLogout;
+use App\Listeners\LogActionInventory;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         Logout::class => [
             LogUserLogout::class,
+        ],
+        UserActionInventory::class => [
+            LogActionInventory::class,
         ],
     ];
 

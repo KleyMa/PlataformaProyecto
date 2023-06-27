@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Equipo;
 use Illuminate\Http\Request;
+use App\Events\UserActionInventory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class InventarioController extends Controller
@@ -25,6 +27,8 @@ class InventarioController extends Controller
 
     public function show(Equipo $equipo) //solo $equipo
     {
+        $user = Auth::user();
+        event(new UserActionInventory($user, $equipo , now() , 'Se vio: ' . $equipo->nombre));
         return view('equipos.show', ['equipo'=>$equipo]); //Equipo::findOrFail($equipo); es lo mismo
     }
     public function create()
@@ -33,6 +37,7 @@ class InventarioController extends Controller
     }
     public function store(Request $request)
     {
+        $user = Auth::user();
         $request -> validate([
             'nombre' => ['required'],
             'tipo_de_equipo' => ['required'],
@@ -72,6 +77,7 @@ class InventarioController extends Controller
             $equipo->manual = $request->file('manual')->storeAs('public/manuales', $nombreArchivo);
         }
         $equipo->save();
+        event(new UserActionInventory($user, $equipo , now() , 'Se creo: ' . $equipo->nombre));
 
         session()->flash('status','Equipo agregado correctamente.');
 
@@ -85,6 +91,7 @@ class InventarioController extends Controller
     
     public function update(Request $request, Equipo $equipo)
     {
+        $user = Auth::user();
         $request -> validate([
             'nombre' => ['required'],
             'tipo_de_equipo' => ['required'],
@@ -127,6 +134,7 @@ class InventarioController extends Controller
         }
         $equipo->save();
 
+        event(new UserActionInventory($user, $equipo , now() , 'Se edito: ' . $equipo->nombre));
         session()->flash('status','Equipo editado correctamente.');
 
         return to_route('inventario');
@@ -134,9 +142,11 @@ class InventarioController extends Controller
 
     public function destroy(Equipo $equipo)
     {
+        $user = Auth::user();
         $equipo->delete();
 
         session()->flash('status','Equipo eliminado correctamente.');
+        event(new UserActionInventory($user, $equipo , now() , 'Se elimino: ' . $equipo->nombre));
 
         return to_route('inventario');
     }

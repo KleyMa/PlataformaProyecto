@@ -38,6 +38,7 @@
                     </div>
                 </div>
             </div>
+            @include('equipos.delete')
             @endforeach
         </div>
     </div>
@@ -50,5 +51,4 @@
             </nav>
         </div>
     </div>
-    @include('equipos.delete')
 </x-layouts.app>
