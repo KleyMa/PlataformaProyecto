@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use App\Events\UserActionUsers;
 use Illuminate\Http\Request;
 
 use Spatie\Permission\Models\Role;
@@ -42,6 +44,8 @@ class UserController extends Controller
      */
     public function show(User $usuario)
     {
+        $user = Auth::user();
+        event(new UserActionUsers($user, $usuario , now() , 'Se vio: ' . $usuario->usuario));
         return view('usuarios.show', ['usuario'=>$usuario]); //Equipo::findOrFail($equipo); es lo mismo
     }
 
@@ -69,6 +73,8 @@ class UserController extends Controller
         $usuario->email = $request->input('email');
         $usuario->save();
 
+        $user = Auth::user();
+        event(new UserActionUsers($user, $usuario , now() , 'Se edito: ' . $usuario->usuario));
         session()->flash('status','Usuario editado correctamente.');
 
         return to_route('usuarios.index');
@@ -81,6 +87,8 @@ class UserController extends Controller
     {
         $usuario->delete();
 
+        $user = Auth::user();
+        event(new UserActionUsers($user, $usuario , now() , 'Se elimino: ' . $usuario->usuario));
         session()->flash('status','Usuario eliminado correctamente.');
 
         return to_route('usuarios.index');

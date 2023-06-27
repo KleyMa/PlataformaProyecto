@@ -8,8 +8,10 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Logout;
 use App\Events\UserActionInventory;
+use App\Events\UserActionUsers;
 use App\Listeners\LogUserLogout;
 use App\Listeners\LogActionInventory;
+use App\Listeners\LogActionUsers;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -28,6 +30,9 @@ class EventServiceProvider extends ServiceProvider
         UserActionInventory::class => [
             LogActionInventory::class,
         ],
+        UserActionUsers::class => [
+            LogActionUsers::class,
+        ]
     ];
 
     /**

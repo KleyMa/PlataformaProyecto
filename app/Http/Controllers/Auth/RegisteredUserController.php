@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rules;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Events\UserActionUsers;
+use Illuminate\Support\Facades\Auth;
 
 use Spatie\Permission\Models\Role;
 
@@ -33,6 +35,8 @@ class RegisteredUserController extends Controller
         $usuario->roles()->sync($request->roles);
         $usuario->save();
 
+        $user = Auth::user();
+        event(new UserActionUsers($user, $usuario , now() , 'Se creo: ' . $usuario->usuario));
         //Auth::login($usuario); para iniciar sesion despues de registrar el usuario
         return to_route('inventario')->with('status', 'Cuenta creada con exito.');
     }
