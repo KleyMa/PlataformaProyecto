@@ -12,13 +12,11 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ManualsController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\ResetPasswordController;
-use Illuminate\Validation\Rules;
+use App\Http\Controllers\AdministrarCuentaController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\DB;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -65,10 +63,12 @@ Route::resource('/Imagenes', ImagesController::class)->names('imagenes')->middle
 Route::get('/Roles/buscar', [RoleController::class, 'buscar'])->name('roles.buscar')->middleware('auth');
 Route::resource('/Roles', RoleController::class)->names('roles')->middleware('auth')->parameters(['Roles' => 'role']);
 
+Route::get('/AdministrarCuenta', [AdministrarCuentaController::class, 'index'])->name('administrarcuenta')->middleware('auth');
+
 // Ruta para mostrar el formulario de olvido de contraseña
 Route::get('/forgot-password', function () {
     return view('auth.forgot-password');
-})->middleware('guest')->name('password.request');
+})->name('password.request');
 
 // Ruta para enviar el correo de restablecimiento de contraseña
 Route::post('/forgot-password', function (Request $request) {
@@ -81,12 +81,12 @@ Route::post('/forgot-password', function (Request $request) {
     return $status === Password::RESET_LINK_SENT
                 ? back()->with(['status' => __($status)])
                 : back()->withErrors(['email' => __($status)]);
-})->middleware('guest')->name('password.email');
+})->name('password.email');
 
 // Ruta para mostrar el formulario de restablecimiento de contraseña
 Route::get('/reset-password/{token}', function (string $token) {
     return view('auth.reset-password', ['token' => $token]);
-})->middleware('guest')->name('password.reset');
+})->name('password.reset');
 
 // Ruta para procesar el restablecimiento de contraseña
 Route::post('/reset-password', function (Request $request) {

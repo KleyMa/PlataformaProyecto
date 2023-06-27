@@ -23,7 +23,7 @@
                 <div style="display: flex; justify-content: space-between;">
                     <div><label><input type="checkbox" id="cbox1" name="recuerdame"> Recuerdame</label><br></div>
                     <div><a href="{{ route('password.request') }}">¿Olvidaste tu contraseña?</a><br></div>
-                  </div>                  
+                </div>
             </div>
             <button type="submit" class="btn btn-primary">Iniciar sesion</button>
           </form>

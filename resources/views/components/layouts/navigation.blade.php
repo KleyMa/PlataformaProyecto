@@ -2,7 +2,7 @@
     @auth
     <a class="navbar-brand dropdown-toggle" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Bienvenido, {{ Auth::user()->usuario }}</a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-        <a class="dropdown-item" href="{{ route('registrar') }}">Administrar cuenta</a>
+        <a class="dropdown-item" href="{{ route('administrarcuenta') }}">Administrar cuenta</a>
         <div class="dropdown-divider"></div>
         <form action="{{ route('logout') }}" method="POST">
             @csrf
