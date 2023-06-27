@@ -68,7 +68,8 @@ class InventarioController extends Controller
         }
         if($request->hasFile('manual'))
         {
-            $equipo->manual = $request->file('manual')->store('public/manuales');
+            $nombreArchivo = $equipo->nombre . '_Manual_' . date('Ymd') . '_' . time() . '.' . $equipo->manual->getClientOriginalExtension();
+            $equipo->manual = $request->file('manual')->storeAs('public/manuales', $nombreArchivo);
         }
         $equipo->save();
 
@@ -120,7 +121,9 @@ class InventarioController extends Controller
         }
         if($request->hasFile('manual'))
         {
-            $equipo->manual = $request->file('manual')->store('public/manuales');
+            $nombreArchivo = $equipo->nombre . '_Manual_' . date('Ymd') . '_' . time() . '.' . $request->file('manual')->getClientOriginalExtension();
+            $equipo->manual = $nombreArchivo;
+            $request->file('manual')->storeAs('public/manuales', $nombreArchivo);
         }
         $equipo->save();
 

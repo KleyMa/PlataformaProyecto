@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use App\Events\UserLoggedOut;
+use Illuminate\Support\Facades\Password;
 
 class AuthenticatedSessionController extends Controller
 {

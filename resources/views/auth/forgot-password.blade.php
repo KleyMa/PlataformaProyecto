@@ -3,15 +3,18 @@
         <div class="mt-4">
             <h1>Recuperar contraseña</h1><br>
         </div>
-        <form action="{{ route('login')}}" method="POST">
+        <form action="{{ route('password.email')}}" method="POST">
             @csrf
             <div class="form-group">
               <label for="exampleInputEmail1">Email</label>
-              <input type="text" class="form-control" name="usuario" value="{{ old('usuario') }}" placeholder="Ingresa el nombre de usuario.">
-            @error('usuario')
+              <input type="text" class="form-control" name="email" value="{{ old('email') }}" placeholder="Ingresa tu email.">
+            </div>
+            <div class="form-group">
+              @error('email')
                 <small style="color:red"> {{ $message }}</small>
             @enderror
-            <button type="submit" class="btn btn-primary">Iniciar sesion</button>
+            </div>
+            <button type="submit" class="btn btn-primary">Recuperar contraseña</button>
           </form>
     </div>
 </x-layout>

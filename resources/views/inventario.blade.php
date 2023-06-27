@@ -1,4 +1,4 @@
-<x-layouts.app title="Inventario" >
+<x-layouts.app title="Inventario">
     <div class="container mt-3">
         <div class="mb-3">
             <h1>Inventario</h1>
@@ -9,7 +9,7 @@
     </div>
     <div class="container d-flex justify-content-between">
         <div class="row">
-    @foreach ($equipos as $equipo)
+            @foreach ($equipos as $equipo)
             <div class="mt-3">
                 <div class="card" style="width: 18rem; margin-left: 40px; margin-right: 40px;">
                     <img class="card-img-top" src="{{Storage::url($equipo->imagen_principal)}}" alt=".">
@@ -38,9 +38,17 @@
                     </div>
                 </div>
             </div>
-        @include('equipos.delete')
-        @endforeach
-        {{ $equipos->links('') }}
+            @endforeach
         </div>
     </div>
+    <div class="container mt-3">
+        <div class="d-flex justify-content-center">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    {{ $equipos->links() }}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    @include('equipos.delete')
 </x-layouts.app>

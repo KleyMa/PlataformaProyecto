@@ -9,8 +9,8 @@
         <div class="container">
             @if($equipo->manual)
             <div class="d-md-flex justify-content-md-end">
-                <label>Manual del equipo: </label>
-                <a target="_blank" href="{{ asset($equipo->manual) }}">PDF</a>
+                <label class="mr-2">Manual del equipo:</label>
+                <a target="_blank" href="{{ asset('storage/manuales/' . $equipo->manual) }}">{{$equipo->manual}}</a>
             </div>
             @endif
             <label>Tipo de equipo: {{$equipo->tipo_de_equipo}}</label><br>
