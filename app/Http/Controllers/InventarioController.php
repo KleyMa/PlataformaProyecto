@@ -16,6 +16,12 @@ class InventarioController extends Controller
         $equipos = Equipo::where('estatus_inventario', 'activo')->paginate(3);
         return view('inventario', compact('equipos'));
     }
+    
+    public function indexInactivos(Request $request)
+    {
+        $equipos = Equipo::where('estatus_inventario', 'inactivo')->paginate(3);
+        return view('inventarioInactivos', compact('equipos'));
+    }
 
     public function buscar(Request $request)
     {
@@ -155,9 +161,18 @@ class InventarioController extends Controller
     public function baja(Equipo $equipo)
     {
         $user = Auth::user();
-        $equipo->estatus_inventario = 'inactivo';
-        $equipo->save();
+        $equipo->update(['estatus_inventario' => 'inactivo']);
         event(new UserActionInventory($user, $equipo , now() , 'Se dio de baja: ' . $equipo->nombre));
-        return to_route('inventario')->with('success', 'Equipo dado de baja correctamente.');
+        session()->flash('status','Equipo dado de baja correctamente.');
+        return to_route('equipos.inactivos');
+    }
+
+    public function alta(Equipo $equipo)
+    {
+        $user = Auth::user();
+        $equipo->update(['estatus_inventario' => 'activo']);
+        event(new UserActionInventory($user, $equipo , now() , 'Se dio de alta: ' . $equipo->nombre));
+        session()->flash('status','Equipo dado de alta correctamente.');
+        return to_route('inventario');
     }
 }

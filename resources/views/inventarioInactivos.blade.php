@@ -1,14 +1,13 @@
-<x-layouts.app title="Inventario">
+<x-layouts.app title="Equipos Inactivos">
     <div class="container mt-3">
         <div class="mb-3">
-            <h1>Inventario</h1>
+            <h1>Equipos inactivos</h1>
         </div>
-        @can('inventarioAgregarEquipo')
-            <div style="display: flex; justify-content: space-between;">
-                <div><a class="btn btn-success my-2 my-sm-0" href="{{ route('equipos.agregarequipo')}}">Agregar nuevo equipo</a><br></div>
-                <div><a class="btn btn-outline-warning my-2 my-sm-0" href="{{ route('equipos.inactivos')}}">Ver equipos inactivos</a><br></div>
+        <div style="display: flex; justify-content: flex-end;">
+            <div>
+                <a class="btn btn-outline-warning my-2 my-sm-0" href="{{ route('inventario')}}">Ver equipos activos</a><br>
             </div>
-        @endcan
+        </div>
     </div>
     <div class="container d-flex justify-content-between">
         <div class="row">
@@ -32,8 +31,8 @@
                             @endcan
                             @can('inventarioEliminarEquipo')
                                 <div class="row align-items-end">
-                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-baja-{{$equipo->id}}">
-                                        Dar de baja
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-alta-{{$equipo->id}}">
+                                        Dar de alta
                                     </button>
                                 </div>
                             @endcan
@@ -41,7 +40,7 @@
                     </div>
                 </div>
             </div>
-            @include('equipos.baja')
+            @include('equipos.alta')
             @endforeach
         </div>
     </div>

@@ -24,7 +24,7 @@
             <label>Requisitos de funcionamiento: {{$equipo->requisitos_de_funcionamiento}}</label><br>
             <label>Proveedor de mantenimiento: {{$equipo->proveedor_de_mantenimiento}}</label><br>
             <label>Proveedor de compra: {{$equipo->proveedor_de_compra}}</label><br>
-            <a class="btn btn-outline-warning my-2 my-sm-0" href="{{ route('inventario') }}">Regresar</a><br>
+            <a class="btn btn-outline-warning my-2 my-sm-0" href="{{ url()->previous() }}">Regresar</a><br>
         </div>
     </div>
 </x-layouts.app>

@@ -2,7 +2,7 @@
     <div class="container">
     <h1>Editar {{$equipo->nombre}}</h1>
     <div class="container d-md-flex justify-content-md-end">
-        <a class="btn btn-warning" href="{{ route('inventario') }}">Regresar</a>
+        <a class="btn btn-warning" href="{{ url()->previous() }}">Regresar</a>
     </div>
     <form action="{{ route('equipos.update', $equipo)}}" method="POST" enctype="multipart/form-data">
         @csrf @method('PATCH')

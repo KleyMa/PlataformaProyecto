@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Password;
 Route::view('/', 'welcome')->name('welcome')->middleware('auth');;
 Route::get('/Inventario', [InventarioController::class, 'index'])->name('inventario')->middleware('can:inventario');
 Route::get('/Inventario/buscar', [InventarioController::class, 'buscar'])->name('inventario.buscar')->middleware('can:inventario');;
+Route::get('/Inventario/EquiposInactivos', [InventarioController::class, 'indexInactivos'])->name('equipos.inactivos')->middleware('can:inventario');
 Route::get('/Inventario/AgregarEquipo', [InventarioController::class, 'create'])->name('equipos.agregarequipo')->middleware('can:inventarioAgregarEquipo');;
 Route::post('/Inventario', [InventarioController::class, 'store'])->name('equipos.store')->middleware('can:inventarioAgregarEquipo');;
 Route::get('/Inventario/{equipo}', [InventarioController::class, 'show'])->name('equipos.show')->middleware('can:inventarioVer');;
@@ -64,6 +65,9 @@ Route::get('/Roles/buscar', [RoleController::class, 'buscar'])->name('roles.busc
 Route::resource('/Roles', RoleController::class)->names('roles')->middleware('auth')->parameters(['Roles' => 'role']);
 
 Route::get('/AdministrarCuenta', [AdministrarCuentaController::class, 'index'])->name('administrarcuenta')->middleware('auth');
+
+Route::post('/Inventario/{equipo}/baja', [InventarioController::class, 'baja'])->name('equipos.baja')->middleware('auth');
+Route::post('/Inventario/{equipo}/alta', [InventarioController::class, 'alta'])->name('equipos.alta')->middleware('auth');
 
 // Ruta para mostrar el formulario de olvido de contraseña
 Route::get('/forgot-password', function () {

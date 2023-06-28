@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Equipo extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'estatus_inventario',
+    ];
 }
