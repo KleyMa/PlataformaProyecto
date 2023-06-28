@@ -7,12 +7,13 @@ use Illuminate\Http\Request;
 use App\Events\UserActionInventory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Expr\BinaryOp\Equal;
 
 class InventarioController extends Controller
 {
     public function index(Request $request)
     {
-        $equipos = Equipo::paginate(3);
+        $equipos = Equipo::where('estatus_inventario', 'activo')->paginate(3);
         return view('inventario', compact('equipos'));
     }
 
@@ -149,5 +150,14 @@ class InventarioController extends Controller
         event(new UserActionInventory($user, $equipo , now() , 'Se elimino: ' . $equipo->nombre));
 
         return to_route('inventario');
+    }
+
+    public function baja(Equipo $equipo)
+    {
+        $user = Auth::user();
+        $equipo->estatus_inventario = 'inactivo';
+        $equipo->save();
+        event(new UserActionInventory($user, $equipo , now() , 'Se dio de baja: ' . $equipo->nombre));
+        return to_route('inventario')->with('success', 'Equipo dado de baja correctamente.');
     }
 }

@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('proveedor_de_compra');
             $table->string('imagen_principal')->nullable()->default('imagenes/default.jpg');
             $table->string('manual')->nullable();
+            $table->string('estatus_inventario')->default('activo');
             $table->timestamps();
         });
     }

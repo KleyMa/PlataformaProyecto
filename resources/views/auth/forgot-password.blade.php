@@ -16,5 +16,8 @@
             </div>
             <button type="submit" class="btn btn-primary">Recuperar contraseña</button>
           </form>
+          <div class="mt-3">
+            <a class="btn btn-warning my-2 my-sm-0" href="{{ route('login') }}">Regresar</a><br>
+          </div>
     </div>
 </x-layout>
