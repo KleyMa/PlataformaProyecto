@@ -34,7 +34,7 @@
             @foreach($roles as $role)
                 <label><input type="radio" value="{{$role->id}}" name="roles[]"> {{$role->name}}</label><br>
             @endforeach
-            <button type="submit" class="btn btn-primary">Registrar</button>
+            <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk fa-lg"></i> Registrar</button>
           </form>
     </div>
 </x-layout>

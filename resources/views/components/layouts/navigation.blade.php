@@ -1,12 +1,15 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     @auth
-    <a class="navbar-brand dropdown-toggle" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Bienvenido, {{ Auth::user()->usuario }}</a>
+    <a class="navbar-brand mr-4" href="/">
+        <i class="fa-thin fa fa-house"></i>
+    </a>
+    <a class="navbar-brand dropdown-toggle" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Hola, {{ Auth::user()->usuario }}</a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-        <a class="dropdown-item" href="{{ route('administrarcuenta') }}">Administrar cuenta</a>
+        <a class="dropdown-item" href="{{ route('administrarcuenta') }}"><i class="fa-regular fa-circle-user"></i> Administrar cuenta</a>
         <div class="dropdown-divider"></div>
         <form action="{{ route('logout') }}" method="POST">
             @csrf
-            <button class="dropdown-item" href="{{ route('logout') }}">Cerrar sesión</button>
+            <button class="dropdown-item" href="{{ route('logout') }}"><i class="fa-solid fa-power-off"></i> Cerrar sesión</button>
         </form>
     </div>
     @endauth
@@ -17,62 +20,90 @@
         <ul class="navbar-nav mr-auto">
             @can('inventario')
             <li class="nav-item active">
-                <a class="nav-link" href="{{ route('inventario') }}">Inventario <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{ route('inventario') }}"><i class="fa-solid fa-boxes-stacked fa-lg"></i> Inventario <span class="sr-only">(current)</span></a>
             </li>
             @endcan
             @can('bitacoras')
             <li class="nav-item active">
-                <a class="nav-link" href="{{ route('bitacoras.index') }}">Bitacoras</a>
+                <a class="nav-link" href="{{ route('bitacoras.index') }}"><i class="fa-regular fa-file-lines fa-lg"></i> Bitacoras</a>
             </li>
             @endcan
             @auth
             <li class="nav-item dropdown active">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Recursos
+                    <i class="fa-solid fa-toolbox fa-lg"></i> Recursos
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ route('manuales.index') }}">Manuales</a>
+                    <a class="dropdown-item" href="{{ route('manuales.index') }}"><i class="fa-solid fa-file-pdf fa-lg"></i> Manuales</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ route('imagenes.index') }}">Imagenes</a>
+                    <a class="dropdown-item" href="{{ route('imagenes.index') }}"><i class="fa-solid fa-images fa-lg"></i> Imagenes</a>
                 </div>
             </li> <!-- Cerrar la etiqueta li del menú desplegable "Recursos" -->
             @endauth
             @can('usuarios')
             <li class="nav-item dropdown"> <!-- Abrir una nueva etiqueta li para el menú desplegable "Administrar usuarios" -->
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Administrar usuarios
+                    <i class="fa-solid fa-users-gear fa-lg"></i> Administrar usuarios
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
-                    <a class="dropdown-item" href="{{ route('usuarios.index') }}">Administrar usuarios</a>
-                    <a class="dropdown-item" href="{{ route('roles.index') }}">Administrar roles</a>
+                    <a class="dropdown-item" href="{{ route('usuarios.index') }}"><i class="fa-solid fa-address-book fa-lg"></i> Administrar usuarios</a>
+                    <a class="dropdown-item" href="{{ route('roles.index') }}"><i class="fa-solid fa-user-tie fa-lg"></i> Administrar roles</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ route('registrar') }}">Registrar usuario</a>
+                    <a class="dropdown-item" href="{{ route('registrar') }}"><i class="fa-solid fa-user-plus fa-lg"></i> Registrar usuario</a>
                 </div>
             </li> <!-- Cerrar la etiqueta li del menú desplegable "Administrar usuarios" -->
             @endcan
         </ul>
         @auth
-        @if(request()->routeIs('inventario') || request()->routeIs('inventario.buscar'))
-            <form class="form-inline my-2 my-lg-0" action="{{route('inventario.buscar')}}" method="GET">
-                <input class="form-control mr-sm-2" type="search" placeholder="Buscar un equipo." aria-label="Search" name="nombre">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-            </form>
-        @elseif(request()->routeIs('bitacoras.index') || request()->routeIs('bitacoras.buscar'))
-            <form class="form-inline my-2 my-lg-0" action="{{route('bitacoras.buscar')}}" method="GET">
-                <input class="form-control mr-sm-2" type="search" placeholder="Buscar una bitacora." aria-label="Search" name="nombre">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-            </form>
-        @elseif(request()->routeIs('usuarios.index') || request()->routeIs('usuarios.buscar'))
-            <form class="form-inline my-2 my-lg-0" action="{{route('usuarios.buscar')}}" method="GET">
-                <input class="form-control mr-sm-2" type="search" placeholder="Buscar un usuario." aria-label="Search" name="usuario">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-            </form>
-        @elseif(request()->routeIs('roles.index') || request()->routeIs('roles.buscar'))
-            <form class="form-inline my-2 my-lg-0" action="{{route('roles.buscar')}}" method="GET">
-                <input class="form-control mr-sm-2" type="search" placeholder="Buscar un rol." aria-label="Search" name="name">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-            </form>
-        @endif
-      @endauth
+        @php
+    // Obtiene el nombre de la ruta actual
+    $currentRoute = request()->route()->getName();
+    // Define los datos específicos de cada formulario según la ruta actual
+    switch ($currentRoute) {
+        case 'inventario':
+        case 'inventario.buscar':
+            $formRoute = 'inventario.buscar';
+            $formPlaceholder = 'Buscar un equipo.';
+            $formName = 'nombre';
+            break;
+        case 'bitacoras.index':
+        case 'bitacoras.buscar':
+            $formRoute = 'bitacoras.buscar';
+            $formPlaceholder = 'Buscar una bitacora.';
+            $formName = 'nombre';
+            break;
+        case 'usuarios.index':
+        case 'usuarios.buscar':
+            $formRoute = 'usuarios.buscar';
+            $formPlaceholder = 'Buscar un usuario.';
+            $formName = 'usuario';
+            break;
+        case 'roles.index':
+        case 'roles.buscar':
+            $formRoute = 'roles.buscar';
+            $formPlaceholder = 'Buscar un rol.';
+            $formName = 'name';
+            break;
+        case 'equipos.inactivos':
+        case 'equipos.inactivos.buscar':
+            $formRoute = 'equipos.inactivos.buscar';
+            $formPlaceholder = 'Buscar un inactivo.';
+            $formName = 'nombre';
+            break;
+        default:
+            $formRoute = '';
+            $formPlaceholder = '';
+            $formName = '';
+            break;
+    }
+@endphp
+
+@if(!empty($formRoute))
+    <form class="form-inline my-2 my-lg-0" action="{{ route($formRoute) }}" method="GET">
+        <input class="form-control mr-sm-2" type="search" placeholder="{{ $formPlaceholder }}" aria-label="Search" name="{{ $formName }}">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+    </form>
+@endif
   </div>
+  @endauth
 </nav>

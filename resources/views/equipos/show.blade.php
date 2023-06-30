@@ -1,8 +1,8 @@
 <x-layouts.app :title="$equipo->nombre"> <!-- Los dos puntos permiten que se ejecute php aqui dentro-->
     <div class="container">
-        <div class="d-md-flex justify-content-md-end">
+        <!--<div class="d-md-flex justify-content-md-end">
             <h3>ID en inventario: {{$equipo->id}}</h3>
-        </div>
+        </div>-->
         <div class="container mb-4">
             <h1>{{$equipo->nombre}}</h1>
         </div>
@@ -10,7 +10,7 @@
             @if($equipo->manual)
             <div class="d-md-flex justify-content-md-end">
                 <label class="mr-2">Manual del equipo:</label>
-                <a target="_blank" href="{{ asset('storage/manuales/' . $equipo->manual) }}">{{$equipo->manual}}</a>
+                <a target="_blank" href="{{ asset('storage/manuales/' . $equipo->manual) }}"><i class="fa-sharp fa-solid fa-file-pdf fa-2xl"></i></a>
             </div>
             @endif
             <label>Tipo de equipo: {{$equipo->tipo_de_equipo}}</label><br>
@@ -24,7 +24,11 @@
             <label>Requisitos de funcionamiento: {{$equipo->requisitos_de_funcionamiento}}</label><br>
             <label>Proveedor de mantenimiento: {{$equipo->proveedor_de_mantenimiento}}</label><br>
             <label>Proveedor de compra: {{$equipo->proveedor_de_compra}}</label><br>
-            <a class="btn btn-outline-warning my-2 my-sm-0" href="{{ url()->previous() }}">Regresar</a><br>
+            <a class="btn btn-warning btn-lg btn-block my-2 my-sm-0" href="{{ Session::get('urlAnterior') }}"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a><br>
+            <button type="button" class="btn btn-danger btn-lg btn-block" data-toggle="modal" data-target="#modal-delete-{{$equipo->id}}">
+                <i class="fa-solid fa-trash-can"></i> Eliminar equipo permanentemente
+            </button>
+            @include('equipos.delete')
         </div>
     </div>
 </x-layouts.app>

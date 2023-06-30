@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use App\Events\UserLoggedOut;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Password;
 
 class AuthenticatedSessionController extends Controller
@@ -49,5 +51,29 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return to_route('login')->with('status','Se ha cerrado sesion correctamente');
+    }
+
+    public function changePassword(Request $request){
+        return view('auth.cambiar-password');
+    }
+
+    public function updatePassword(Request $request){
+        $request->validate([
+            'old_password'=>['required','string', Rules\Password::defaults()],
+            'new_password'=>['required','confirmed','string', Rules\Password::defaults()],
+        ]);
+
+        if(Hash::check($request->old_password, Auth::user()->password)){
+            $user = Auth::user();
+            $user->update([
+                'password'=>bcrypt($request->new_password)
+            ]);
+            session()->flash('status', 'La contraseña se ha actualizado con exito.');
+        }
+        else{
+            session()->flash('status', 'La contraseña actual no es correcta.');
+            session()->flash('status-class', 'alert-danger');
+        }
+        return view('auth.cambiar-password');
     }
 }

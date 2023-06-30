@@ -1,4 +1,4 @@
-<x-layouts.app title="Cambiar contraseña" meta-description="Página de registro">
+<x-layouts.app title="Recuperar contraseña" meta-description="Página de registro">
     <div class="container">
         <form action="{{ route('password.update') }}" method="POST">
             @csrf

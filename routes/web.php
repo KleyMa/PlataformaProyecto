@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Password;
 Route::view('/', 'welcome')->name('welcome')->middleware('auth');;
 Route::get('/Inventario', [InventarioController::class, 'index'])->name('inventario')->middleware('can:inventario');
 Route::get('/Inventario/buscar', [InventarioController::class, 'buscar'])->name('inventario.buscar')->middleware('can:inventario');;
+Route::get('/Inventario/EquiposInactivos/buscar', [InventarioController::class, 'buscarInactivos'])->name('equipos.inactivos.buscar')->middleware('can:inventario');
 Route::get('/Inventario/EquiposInactivos', [InventarioController::class, 'indexInactivos'])->name('equipos.inactivos')->middleware('can:inventario');
 Route::get('/Inventario/AgregarEquipo', [InventarioController::class, 'create'])->name('equipos.agregarequipo')->middleware('can:inventarioAgregarEquipo');;
 Route::post('/Inventario', [InventarioController::class, 'store'])->name('equipos.store')->middleware('can:inventarioAgregarEquipo');;
@@ -69,10 +70,12 @@ Route::get('/AdministrarCuenta', [AdministrarCuentaController::class, 'index'])-
 Route::post('/Inventario/{equipo}/baja', [InventarioController::class, 'baja'])->name('equipos.baja')->middleware('auth');
 Route::post('/Inventario/{equipo}/alta', [InventarioController::class, 'alta'])->name('equipos.alta')->middleware('auth');
 
+Route::get('/change-password', [AuthenticatedSessionController::class, 'changePassword'])->name('usuario.changepassword')->middleware('auth');
+Route::post('/change-password/update', [AuthenticatedSessionController::class, 'updatePassword'])->name('usuario.updatepassword')->middleware('auth');
 // Ruta para mostrar el formulario de olvido de contraseña
 Route::get('/forgot-password', function () {
     return view('auth.forgot-password');
-})->name('password.request');
+})->name('password.request')->middleware('guest');
 
 // Ruta para enviar el correo de restablecimiento de contraseña
 Route::post('/forgot-password', function (Request $request) {
@@ -85,12 +88,12 @@ Route::post('/forgot-password', function (Request $request) {
     return $status === Password::RESET_LINK_SENT
                 ? back()->with(['status' => __($status)])
                 : back()->withErrors(['email' => __($status)]);
-})->name('password.email');
+})->name('password.email')->middleware('guest');
 
 // Ruta para mostrar el formulario de restablecimiento de contraseña
 Route::get('/reset-password/{token}', function (string $token) {
     return view('auth.reset-password', ['token' => $token]);
-})->name('password.reset');
+})->name('password.reset')->middleware('guest');
 
 // Ruta para procesar el restablecimiento de contraseña
 Route::post('/reset-password', function (Request $request) {
@@ -116,4 +119,4 @@ Route::post('/reset-password', function (Request $request) {
     return $status === Password::PASSWORD_RESET
                 ? redirect()->route('login')->with('status', __($status))
                 : back()->withErrors(['email' => [__($status)]]);
-})->name('password.update');
+})->name('password.update')->middleware('guest');

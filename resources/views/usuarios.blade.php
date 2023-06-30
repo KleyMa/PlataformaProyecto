@@ -9,7 +9,6 @@
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
               <tr>
-                <th class="col-1 text-center">ID</th>
                 <th class="col-2 text-center">Usuario</th>
                 <th class="col-2 text-center">Email</th>
                 <th class="col-1 text-center">Rol</th>
@@ -19,7 +18,6 @@
             <tbody>
             @foreach ($usuarios as $usuario)
               <tr>
-                <th class="text-center">{{$usuario->id}}</td>
                 <td class="text-center">{{$usuario->usuario}}</td>
                 <td class="text-center">{{$usuario->email}}</td>
                 <td class="text-center">

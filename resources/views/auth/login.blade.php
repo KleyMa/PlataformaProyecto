@@ -25,7 +25,7 @@
                     <div><a href="{{ route('password.request') }}">¿Olvidaste tu contraseña?</a><br></div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Iniciar sesion</button>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-right-to-bracket"></i> Iniciar sesion</button>
           </form>
     </div>
 </x-layout>

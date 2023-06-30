@@ -1,9 +1,7 @@
 <x-layouts.app :title="$equipo->nombre"> <!-- Los dos puntos permiten que se ejecute php aqui dentro-->
     <div class="container">
     <h1>Editar {{$equipo->nombre}}</h1>
-    <div class="container d-md-flex justify-content-md-end">
-        <a class="btn btn-warning" href="{{ url()->previous() }}">Regresar</a>
-    </div>
+    <a class="btn btn-warning btn-lg btn-block my-2 my-sm-0" href="{{ Session::get('urlAnterior') }}"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a><br>
     <form action="{{ route('equipos.update', $equipo)}}" method="POST" enctype="multipart/form-data">
         @csrf @method('PATCH')
         <div class="container d-md-flex justify-content-md-end">
@@ -110,10 +108,8 @@
                 <small style="color:red"> {{ $message }}</small>
             @enderror
         </div>
-        <button type="submit" class="btn btn-primary">Subir</button>
+        <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i> Guardar</button>
     </form>
-    <div class="container d-md-flex justify-content-md-end">
-        <a class="btn btn-warning" href="{{ route('inventario') }}">Regresar</a>
-    </div>
+    <a class="btn btn-warning btn-lg btn-block my-2 my-sm-0" href="{{ Session::get('urlAnterior') }}"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a><br>
     </div>
 </x-layouts.app>

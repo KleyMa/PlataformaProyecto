@@ -6,6 +6,7 @@ use App\Models\Equipo;
 use Illuminate\Http\Request;
 use App\Events\UserActionInventory;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\BinaryOp\Equal;
 
@@ -27,13 +28,24 @@ class InventarioController extends Controller
     {
         $nombre = $request->input('nombre');
 
-        $equipos = Equipo::where('nombre', 'like', '%' . $nombre . '%')->get();
+        $equipos = Equipo::where('nombre', 'like', '%' . $nombre . '%')->where('estatus_inventario', 'activo')->paginate(3);
 
         return view('inventario', compact('equipos'));
     }
 
+    public function buscarInactivos(Request $request)
+    {
+        $nombre = $request->input('nombre');
+
+        $equipos = Equipo::where('nombre', 'like', '%' . $nombre . '%')->where('estatus_inventario', 'inactivo')->paginate(3);
+
+        return view('inventarioInactivos', compact('equipos'));
+    }
+
     public function show(Equipo $equipo) //solo $equipo
     {
+        $urlAnterior = url()->previous();
+        Session::put('urlAnterior', $urlAnterior);
         $user = Auth::user();
         event(new UserActionInventory($user, $equipo , now() , 'Se vio: ' . $equipo->nombre));
         return view('equipos.show', ['equipo'=>$equipo]); //Equipo::findOrFail($equipo); es lo mismo
