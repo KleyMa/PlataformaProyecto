@@ -11,7 +11,7 @@
         <div class="d-flex align-items-center">
             <label class="mr-3">Email: {{ Auth::user()->email }}</label>
             <div class="my-3">
-                <a href="#"><i class="fa-regular fa-pen-to-square fa-2xl"></i></a>
+                <a href="{{ route('usuario.changeemail')}}"><i class="fa-regular fa-pen-to-square fa-2xl"></i></a>
             </div>
         </div>
         <div class="d-flex align-items-center">
@@ -20,6 +20,6 @@
                 <a href="{{ route('usuario.changepassword') }}"><i class="fa-regular fa-pen-to-square fa-2xl"></i></a>
             </div>
         </div>
-        <a class="btn btn-warning" href="{{ route('inventario') }}"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
+        <a class="btn btn-warning" href="{{ Session::get('urlAnterior') }}"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
     </div>
 </x-layout>

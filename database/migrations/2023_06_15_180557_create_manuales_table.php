@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('manuales', function (Blueprint $table) {
             $table->id();
-            $table->string('manual');
+            $table->string('nombre')->nullable();
+            $table->string('ruta');
             $table->string('equipo');
             $table->string('descripcion')->nullable();
             $table->timestamps();

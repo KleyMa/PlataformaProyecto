@@ -44,11 +44,6 @@ class ResetPasswordController extends Controller
             : $this->sendResetFailedResponse($request, $response);
     }
 
-    /**
-     * Get the password reset validation rules.
-     *
-     * @return array
-     */
     protected function rules()
     {
         return [
@@ -58,11 +53,6 @@ class ResetPasswordController extends Controller
         ];
     }
 
-    /**
-     * Get the password reset validation error messages.
-     *
-     * @return array
-     */
     protected function validationErrorMessages()
     {
         return [
@@ -73,13 +63,7 @@ class ResetPasswordController extends Controller
             'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
         ];
     }
-
-    /**
-     * Get the password reset credentials from the request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
+    
     protected function credentials(Request $request)
     {
         return $request->only(

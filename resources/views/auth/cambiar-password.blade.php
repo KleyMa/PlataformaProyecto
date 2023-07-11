@@ -27,7 +27,7 @@
                 @enderror
             </div>
             <button type="submit" class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i> Cambiar contraseña</button>
-            <button class="btn btn-warning" href="{{ route('administrarcuenta') }}"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</button>
+            <a class="btn btn-warning" href="{{ route('administrarcuenta') }}"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a>
         </form>
     </div>
 </x-layout>

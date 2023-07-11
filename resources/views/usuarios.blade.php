@@ -3,14 +3,12 @@
         <h1>Usuarios</h1>
     </div>
     <div class="container">
-        <div class="container d-md-flex justify-content-md-end mb-4">
-          <a class="btn btn-outline-success my-2 my-sm-0" href="{{ route('registrar')}}">Nuevo usuario</a><br>
-        </div>
-        <table class="table table-bordered table-striped">
+      <a class="btn btn-success my-2 my-sm-0 mb-4" href="{{ route('registrar')}}"><i class="fa-solid fa-user-plus"></i> Nuevo usuario</a><br>
+        <table class="table table-bordered table-striped mt-3">
             <thead class="thead-dark">
               <tr>
-                <th class="col-2 text-center">Usuario</th>
-                <th class="col-2 text-center">Email</th>
+                <th class="col-1 text-center">Usuario</th>
+                <th class="col-1 text-center">Email</th>
                 <th class="col-1 text-center">Rol</th>
                 <th class="col-1 text-center">Administrar</th>
               </tr>
@@ -32,9 +30,9 @@
                         <div class="row">
                           <div class="col">
                             <div class="btn-group">
-                              <a class="btn btn-primary" href="{{ route('usuarios.show', $usuario) }}">Ver usuario</a>
-                              <a class="btn btn-warning" href="{{ route('usuarios.edit', $usuario) }}">Editar</a>
-                              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$usuario->id}}">Eliminar</button>
+                              <a class="btn btn-primary" href="{{ route('usuarios.show', $usuario) }}"><i class="fa-regular fa-eye"></i></a>
+                              <a class="btn btn-warning" href="{{ route('usuarios.edit', $usuario) }}"><i class="fa-regular fa-pen-to-square"></i></a>
+                              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$usuario->id}}"><i class="fa-regular fa-circle-xmark"></i></button>
                             </div>
                           </div>
                         </div>

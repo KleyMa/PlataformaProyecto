@@ -7,10 +7,10 @@
             <h1>{{$equipo->nombre}}</h1>
         </div>
         <div class="container">
-            @if($equipo->manual)
+            @if($equipo->manual && Storage::exists($equipo->manual))
             <div class="d-md-flex justify-content-md-end">
                 <label class="mr-2">Manual del equipo:</label>
-                <a target="_blank" href="{{ asset('storage/manuales/' . $equipo->manual) }}"><i class="fa-sharp fa-solid fa-file-pdf fa-2xl"></i></a>
+                <a target="_blank" href="{{Storage::url($equipo->manual)}}"><i class="fa-sharp fa-solid fa-file-pdf fa-2xl"></i></a>
             </div>
             @endif
             <label>Tipo de equipo: {{$equipo->tipo_de_equipo}}</label><br>
@@ -25,10 +25,12 @@
             <label>Proveedor de mantenimiento: {{$equipo->proveedor_de_mantenimiento}}</label><br>
             <label>Proveedor de compra: {{$equipo->proveedor_de_compra}}</label><br>
             <a class="btn btn-warning btn-lg btn-block my-2 my-sm-0" href="{{ Session::get('urlAnterior') }}"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a><br>
+            @if($equipo->estatus_inventario == "inactivo")
             <button type="button" class="btn btn-danger btn-lg btn-block" data-toggle="modal" data-target="#modal-delete-{{$equipo->id}}">
                 <i class="fa-solid fa-trash-can"></i> Eliminar equipo permanentemente
             </button>
             @include('equipos.delete')
+            @endif
         </div>
     </div>
 </x-layouts.app>

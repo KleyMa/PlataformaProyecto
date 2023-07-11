@@ -15,7 +15,7 @@
             @foreach ($equipos as $equipo)
             <div class="mt-3">
                 <div class="card" style="width: 18rem; margin-left: 40px; margin-right: 40px;">
-                    <img class="card-img-top" style="height: 200px; width:287px;" src="{{Storage::url($equipo->imagen_principal)}}" alt=".">
+                    <img class="card-img-top" style="height: 200px; width:286px;" src="{{Storage::url($equipo->imagen_principal)}}" alt=".">
                     <div class="card-body">
                         <h5 class="card-title">{{$equipo->nombre}}</h5>
                         <p class="card-text text-truncate">{{$equipo->descripcion}}</p><br>

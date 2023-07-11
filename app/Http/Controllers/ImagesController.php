@@ -3,67 +3,63 @@
 namespace App\Http\Controllers;
 
 use App\Models\Equipo;
+use App\Models\Imagen;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ImagesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $imagenes = Equipo::where('imagen_principal', '!=', 'default.jpg')
+        /*$imagenes = Equipo::where('imagen_principal', '!=', 'default.jpg')
             ->where('imagen_principal', 'not like', '%imagenes/default.jpg')
-            ->pluck('imagen_principal');
-            
+            ->pluck('imagen_principal');*/
+        $imagenes = Imagen::all();
         return view('imagenes.imagenes', compact('imagenes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        return view('imagenes.edit');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $imagen = Imagen::findOrFail($id);
+        
+        $equipo = Equipo::where('imagen_principal', 'like', '%' . $imagen->ruta . '%')->get();
+        if ($equipo->isNotEmpty()) {
+            foreach ($equipo as $equipoItem) {
+                Storage::delete($equipoItem->imagen_principal);
+                $equipoItem->imagen_principal = "imagenes/default.jpg";
+                $equipoItem->save();
+            }
+        }
+        Storage::delete($imagen->ruta);
+        $imagen->delete();
+        
+        session()->flash('status', 'Imagen eliminada correctamente.');
+        
+        return redirect()->route('imagenes.index');
     }
 }

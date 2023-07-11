@@ -43,7 +43,8 @@ Route::get('/Inventario/{equipo}/edit', [InventarioController::class, 'edit'])->
 Route::patch('/Inventario/{equipo}', [InventarioController::class, 'update'])->name('equipos.update')->middleware('can:inventarioEditarEquipo');;
 Route::delete('/Inventario/{equipo}', [InventarioController::class, 'destroy'])->name('equipos.destroy')->middleware('can:inventarioEliminarEquipo');;
 
-Route::get('/Bitacoras/buscar', [BitacorasController::class, 'buscar'])->name('bitacoras.buscar')->middleware('can:bitacoras');;
+Route::get('/Bitacoras/buscar', [BitacorasController::class, 'buscar'])->name('bitacoras.buscar')->middleware('can:bitacoras');
+Route::delete('/Bitacoras/EliminarBitacoraFisica/{bitacora}', [BitacorasController::class, 'destroyFile'])->name('bitacoras.destroyFile')->middleware('can:bitacoras');
 Route::resource('/Bitacoras', BitacorasController::class)->names('bitacoras')->middleware('can:bitacoras')->parameters(['Bitacoras' => 'bitacora']);
 
 Route::view('/login', 'auth.login')->name('login')->middleware('guest');
@@ -72,7 +73,10 @@ Route::post('/Inventario/{equipo}/alta', [InventarioController::class, 'alta'])-
 
 Route::get('/change-password', [AuthenticatedSessionController::class, 'changePassword'])->name('usuario.changepassword')->middleware('auth');
 Route::post('/change-password/update', [AuthenticatedSessionController::class, 'updatePassword'])->name('usuario.updatepassword')->middleware('auth');
-// Ruta para mostrar el formulario de olvido de contraseña
+
+Route::get('/change-email', [AuthenticatedSessionController::class, 'changeEmail'])->name('usuario.changeemail')->middleware('auth');
+Route::post('/change-email/update', [AuthenticatedSessionController::class, 'updateEmail'])->name('usuario.updateemail')->middleware('auth');
+// Ruta para mostrar el formulario de recuperacion de contraseña
 Route::get('/forgot-password', function () {
     return view('auth.forgot-password');
 })->name('password.request')->middleware('guest');
@@ -120,3 +124,5 @@ Route::post('/reset-password', function (Request $request) {
                 ? redirect()->route('login')->with('status', __($status))
                 : back()->withErrors(['email' => [__($status)]]);
 })->name('password.update')->middleware('guest');
+
+Route::get('/BuscarTipoDeEquipo', [InventarioController::class, 'tipoDeEquipoBuscar'])->name('BuscarTipoDeEquipo');

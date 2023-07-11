@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Equipo;
+use App\Models\Manual;
 use Illuminate\Http\Request;
 
 class ManualsController extends Controller
@@ -11,7 +13,8 @@ class ManualsController extends Controller
      */
     public function index()
     {
-        return view('manuales.manuales');
+        $manuales = Manual::all();
+        return view('manuales.manuales', compact('manuales'));
     }
 
     /**

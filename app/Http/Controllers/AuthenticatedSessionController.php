@@ -76,4 +76,29 @@ class AuthenticatedSessionController extends Controller
         }
         return view('auth.cambiar-password');
     }
+
+    public function changeEmail(){
+        return view('auth.cambiar-email');
+    }
+    
+    public function updateEmail(Request $request)
+    {
+        $request->validate([
+            'password' => ['required', 'string', Rules\Password::defaults()],
+            'email' => ['required', 'string', 'email', 'unique:users', 'max:255'],
+        ]);
+
+        if (Hash::check($request->password, Auth::user()->password)) {
+            $user = Auth::user();
+            $user->update([
+                'email' => $request->email,
+            ]);
+            session()->flash('status', 'El email se ha actualizado con éxito.');
+            session()->flash('status-class', 'alert-success');
+        } else {
+            session()->flash('status', 'La contraseña actual no es correcta.');
+            session()->flash('status-class', 'alert-danger');
+        }
+        return view('auth.cambiar-email');
+    }
 }

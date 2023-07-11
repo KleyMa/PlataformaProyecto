@@ -3,9 +3,9 @@
     <a class="navbar-brand mr-4" href="/">
         <i class="fa-thin fa fa-house"></i>
     </a>
-    <a class="navbar-brand dropdown-toggle" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Hola, {{ Auth::user()->usuario }}</a>
+    <a class="navbar-brand dropdown-toggle" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"> Hola, {{ Auth::user()->usuario }} </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-        <a class="dropdown-item" href="{{ route('administrarcuenta') }}"><i class="fa-regular fa-circle-user"></i> Administrar cuenta</a>
+        <a class="dropdown-item" href="{{ route('administrarcuenta') }}"><i class="fa-solid fa-user-gear"></i> Administrar cuenta</a>
         <div class="dropdown-divider"></div>
         <form action="{{ route('logout') }}" method="POST">
             @csrf
@@ -37,6 +37,8 @@
                     <a class="dropdown-item" href="{{ route('manuales.index') }}"><i class="fa-solid fa-file-pdf fa-lg"></i> Manuales</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ route('imagenes.index') }}"><i class="fa-solid fa-images fa-lg"></i> Imagenes</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ route('imagenes.index') }}"><i class="fa-solid fa-qrcode fa-lg"></i> QR</a>
                 </div>
             </li> <!-- Cerrar la etiqueta li del menú desplegable "Recursos" -->
             @endauth

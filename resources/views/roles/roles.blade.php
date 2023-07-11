@@ -3,10 +3,8 @@
         <h1>Administrar roles</h1>
     </div>
     <div class="container">
-        <div class="container d-md-flex justify-content-md-end mb-4">
-            <a class="btn btn-outline-success my-2 my-sm-0" href="{{ route('roles.create')}}">Nuevo rol</a><br>
-        </div>
-        <table class="table table-bordered table-striped">
+        <a class="btn btn-success my-2 my-sm-0" href="{{ route('roles.create') }}"><i class="fa-solid fa-user-plus"></i> Nuevo rol</a>
+        <table class="table table-bordered table-striped mt-3">
             <thead class="thead-dark">
             <tr>
                 <th class="col-1 text-center">ID</th>
@@ -24,9 +22,9 @@
                         <div class="row">
                         <div class="col">
                             <div class="btn-group">
-                            <a class="btn btn-primary" href="{{ route('roles.show', $role) }}">Ver rol</a>
-                            <a class="btn btn-warning" href="{{ route('roles.edit', $role) }}">Editar</a>
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$role->id}}">Eliminar</button>
+                            <a class="btn btn-primary" href="{{ route('roles.show', $role) }}"><i class="fa-regular fa-eye"></i></a>
+                            <a class="btn btn-warning" href="{{ route('roles.edit', $role) }}"><i class="fa-regular fa-pen-to-square"></i></a>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$role->id}}"><i class="fa-regular fa-circle-xmark"></i></button>
                             </div>
                         </div>
                         </div>
