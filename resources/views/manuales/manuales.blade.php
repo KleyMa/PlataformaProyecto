@@ -3,7 +3,7 @@
         <h1>Manuales</h1>
     </div>
     <div class="container">
-        <a class="btn btn-success my-2 my-sm-0 mb-4" href="{{ route('manuales.create')}}"><i class="fa-solid fa-file-circle-plus"></i> Nuevo manual</a><br>
+        <!--<a class="btn btn-success my-2 my-sm-0 mb-4" href="{{ route('manuales.create')}}"><i class="fa-solid fa-file-circle-plus"></i> Nuevo manual</a><br>-->
         <table class="table table-bordered table-striped mt-3">
             <thead class="thead-dark">
               <tr>
@@ -21,16 +21,24 @@
                 <td class="text-center">{{$manual->descripcion}}</td>
                 <td class="text-center">{{$manual->created_at->format('d-m-Y')}}</td>
                 <td class="text-center">
+                  @can('manualesVer')
                     <a href="{{Storage::url($manual->ruta)}}" class="btn btn-primary"><i class="fa-regular fa-file"></i></a>
+                  @endcan
                 </td>
                 <td class="text-center">
                     <div class="container">
                         <div class="row">
                           <div class="col">
                             <div class="btn-group">
+                              @can('manualesVer')
                               <a class="btn btn-primary" href="{{ route('manuales.show', $manual) }}"><i class="fa-regular fa-eye"></i></a>
+                              @endcan
+                              @can('manualesEditar')
                               <a class="btn btn-warning" href="{{ route('manuales.edit', $manual) }}"><i class="fa-regular fa-pen-to-square"></i></a>
+                              @endcan
+                              @can('manualesEliminar')
                               <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$manual->id}}"><i class="fa-regular fa-circle-xmark"></i></button>
+                              @endcan
                             </div>
                             @include('manuales.delete')
                           </div>

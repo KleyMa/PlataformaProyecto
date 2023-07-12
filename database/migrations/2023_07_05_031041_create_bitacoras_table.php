@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('trabajo_realizado');
             $table->string('estatus_operativo');
             $table->string('trabajo_terminado');
+            $table->string('codigo_qr')->nullable();
             $table->timestamps();
         });
     }

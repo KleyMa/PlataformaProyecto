@@ -4,9 +4,11 @@
             <h1>Equipos inactivos</h1>
         </div>
         <div style="display: flex; justify-content: flex-end;">
+            @can('inventario')
             <div>
                 <a class="btn btn-warning my-2 my-sm-0" href="{{ route('inventario')}}"><i class="fa-solid fa-folder-open"></i> Equipos activos</i></a><br>
             </div>
+            @endcan
         </div>
     </div>
     <div class="container d-flex justify-content-between">
@@ -29,7 +31,7 @@
                                     <a href="{{ route('equipos.edit', $equipo) }}" class="btn btn-warning btn-block w-100"><i class="fa-regular fa-pen-to-square"></i> Editar Informacion</a><br>
                                 </div>
                             @endcan
-                            @can('inventarioEliminarEquipo')
+                            @can('inventarioDarAlta')
                                 <div class="row align-items-end">
                                     <button type="button" class="btn btn-success btn-block w-100" data-toggle="modal" data-target="#modal-alta-{{$equipo->id}}">
                                         <i class="fa-regular fa-circle-check"></i> Dar de alta

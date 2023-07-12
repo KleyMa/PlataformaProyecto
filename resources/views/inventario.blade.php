@@ -3,12 +3,14 @@
         <div class="mb-3">
             <h1>Inventario</h1>
         </div>
-        @can('inventarioAgregarEquipo')
-            <div style="display: flex; justify-content: space-between;">
+        <div style="display: flex; justify-content: space-between;">
+            @can('inventarioAgregarEquipo')
                 <div><a class="btn btn-success my-2 my-sm-0" href="{{ route('equipos.agregarequipo')}}"><i class="fa-solid fa-file-circle-plus"></i> Nuevo equipo</a><br></div>
+            @endcan
+            @can('inventarioInactivos')
                 <div><a class="btn btn-warning my-2 my-sm-0" href="{{ route('equipos.inactivos')}}"><i class="fa-solid fa-folder-open"></i> Equipos inactivos</a><br></div>
-            </div>
-        @endcan
+            @endcan
+        </div>
     </div>
     <div class="container d-flex justify-content-between">
         <div class="row">
@@ -30,7 +32,7 @@
                                     <a href="{{ route('equipos.edit', $equipo) }}" class="btn btn-warning btn-block w-100"><i class="fa-regular fa-pen-to-square"></i> Editar Informacion</a><br>
                                 </div>
                             @endcan
-                            @can('inventarioEliminarEquipo')
+                            @can('inventarioDarBaja')
                                 <div class="row align-items-end">
                                     <button type="button" class="btn btn-danger btn-block w-100" data-toggle="modal" data-target="#modal-baja-{{$equipo->id}}">
                                         <i class="fa-regular fa-circle-xmark"></i> Dar de baja

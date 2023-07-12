@@ -8,12 +8,16 @@
             <div class="card">
                 <img src="{{Storage::url($imagen->ruta)}}" alt="" class="img-fluid">
                 <div class="card-footer">
+                @can('imagenesEditar')
                 <a class="btn btn-primary" href="{{ route('imagenes.edit', $imagen) }}">Editar</a>
+                @endcan
+                @can('imagenesEliminar')
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$imagen->id}}">Eliminar</button>
+                @endcan
                 </div>
             </div>
-            @endforeach
             @include('imagenes.delete')
+            @endforeach
         </div>
     </div>
 </x-layout>

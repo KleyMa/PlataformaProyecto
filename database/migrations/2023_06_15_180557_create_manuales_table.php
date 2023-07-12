@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('ruta');
             $table->string('equipo');
             $table->string('descripcion')->nullable();
+            $table->string('codigo_qr')->nullable();
             $table->timestamps();
         });
     }

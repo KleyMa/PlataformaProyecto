@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Storage;
 
 class ImagesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:imagenes')->only('index', 'buscar');
+        $this->middleware('can:imagenesAgregar')->only('create', 'store');
+        $this->middleware('can:imagenesEditar')->only('edit', 'update');
+        $this->middleware('can:imagenesEliminar')->only('destroy');
+    }
     public function index()
     {
         /*$imagenes = Equipo::where('imagen_principal', '!=', 'default.jpg')

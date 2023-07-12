@@ -13,6 +13,7 @@ use App\Http\Controllers\ManualsController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\AdministrarCuentaController;
+use App\Http\Controllers\EstadisticasController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -35,7 +36,7 @@ Route::view('/', 'welcome')->name('welcome')->middleware('auth');;
 Route::get('/Inventario', [InventarioController::class, 'index'])->name('inventario')->middleware('can:inventario');
 Route::get('/Inventario/buscar', [InventarioController::class, 'buscar'])->name('inventario.buscar')->middleware('can:inventario');;
 Route::get('/Inventario/EquiposInactivos/buscar', [InventarioController::class, 'buscarInactivos'])->name('equipos.inactivos.buscar')->middleware('can:inventario');
-Route::get('/Inventario/EquiposInactivos', [InventarioController::class, 'indexInactivos'])->name('equipos.inactivos')->middleware('can:inventario');
+Route::get('/Inventario/EquiposInactivos', [InventarioController::class, 'indexInactivos'])->name('equipos.inactivos')->middleware('can:inventarioInactivos');
 Route::get('/Inventario/AgregarEquipo', [InventarioController::class, 'create'])->name('equipos.agregarequipo')->middleware('can:inventarioAgregarEquipo');;
 Route::post('/Inventario', [InventarioController::class, 'store'])->name('equipos.store')->middleware('can:inventarioAgregarEquipo');;
 Route::get('/Inventario/{equipo}', [InventarioController::class, 'show'])->name('equipos.show')->middleware('can:inventarioVer');;
@@ -44,7 +45,7 @@ Route::patch('/Inventario/{equipo}', [InventarioController::class, 'update'])->n
 Route::delete('/Inventario/{equipo}', [InventarioController::class, 'destroy'])->name('equipos.destroy')->middleware('can:inventarioEliminarEquipo');;
 
 Route::get('/Bitacoras/buscar', [BitacorasController::class, 'buscar'])->name('bitacoras.buscar')->middleware('can:bitacoras');
-Route::delete('/Bitacoras/EliminarBitacoraFisica/{bitacora}', [BitacorasController::class, 'destroyFile'])->name('bitacoras.destroyFile')->middleware('can:bitacoras');
+Route::delete('/Bitacoras/EliminarBitacoraFisica/{bitacora}', [BitacorasController::class, 'destroyFile'])->name('bitacoras.destroyFile')->middleware('can:bitacorasEliminarBitacoraFisica');
 Route::resource('/Bitacoras', BitacorasController::class)->names('bitacoras')->middleware('can:bitacoras')->parameters(['Bitacoras' => 'bitacora']);
 
 Route::view('/login', 'auth.login')->name('login')->middleware('guest');
@@ -55,21 +56,23 @@ Route::get('/RegistrarUsuario', [RegisteredUserController::class, 'index'])->nam
 Route::post('/RegistrarUsuario', [RegisteredUserController::class, 'store'])->middleware('can:RegistrarUsuario');
 
 Route::get('/Usuarios/buscar', [UserController::class, 'buscar'])->name('usuarios.buscar')->middleware('can:usuarios');
-Route::resource('/Usuarios', UserController::class)->names('usuarios')->middleware('can:usuarios')->parameters(['Usuarios' => 'usuario'])->except('create', 'store');
+Route::resource('/Usuarios', UserController::class)->names('usuarios')->parameters(['Usuarios' => 'usuario'])->except('create', 'store');
 
-Route::get('/Manuales/buscar', [ManualsController::class, 'buscar'])->name('manuals.buscar')->middleware('auth');
-Route::resource('/Manuales', ManualsController::class)->names('manuales')->middleware('auth')->parameters(['Manuales' => 'manual']);
+Route::get('/Manuales/buscar', [ManualsController::class, 'buscar'])->name('manuals.buscar');
+Route::resource('/Manuales', ManualsController::class)->names('manuales')->parameters(['Manuales' => 'manual']);
 
-Route::get('/Imagenes/buscar', [ImagesController::class, 'buscar'])->name('images.buscar')->middleware('auth');
-Route::resource('/Imagenes', ImagesController::class)->names('imagenes')->middleware('auth')->parameters(['Imagenes' => 'image']);
+Route::get('/Imagenes/buscar', [ImagesController::class, 'buscar'])->name('images.buscar');
+Route::resource('/Imagenes', ImagesController::class)->names('imagenes')->parameters(['Imagenes' => 'image']);
 
 Route::get('/Roles/buscar', [RoleController::class, 'buscar'])->name('roles.buscar')->middleware('auth');
 Route::resource('/Roles', RoleController::class)->names('roles')->middleware('auth')->parameters(['Roles' => 'role']);
 
 Route::get('/AdministrarCuenta', [AdministrarCuentaController::class, 'index'])->name('administrarcuenta')->middleware('auth');
 
-Route::post('/Inventario/{equipo}/baja', [InventarioController::class, 'baja'])->name('equipos.baja')->middleware('auth');
-Route::post('/Inventario/{equipo}/alta', [InventarioController::class, 'alta'])->name('equipos.alta')->middleware('auth');
+Route::post('/Inventario/{equipo}/baja', [InventarioController::class, 'baja'])->name('equipos.baja')->middleware('can:inventarioDarBaja');
+Route::post('/Inventario/{equipo}/alta', [InventarioController::class, 'alta'])->name('equipos.alta')->middleware('can:inventarioDarAlta');
+
+Route::get('/Estadisticas', [EstadisticasController::class, 'index'])->name('estadisticas.index')->middleware('can:estadisticas');
 
 Route::get('/change-password', [AuthenticatedSessionController::class, 'changePassword'])->name('usuario.changepassword')->middleware('auth');
 Route::post('/change-password/update', [AuthenticatedSessionController::class, 'updatePassword'])->name('usuario.updatepassword')->middleware('auth');

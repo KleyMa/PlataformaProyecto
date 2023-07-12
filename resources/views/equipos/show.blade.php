@@ -1,8 +1,5 @@
 <x-layouts.app :title="$equipo->nombre"> <!-- Los dos puntos permiten que se ejecute php aqui dentro-->
     <div class="container">
-        <!--<div class="d-md-flex justify-content-md-end">
-            <h3>ID en inventario: {{$equipo->id}}</h3>
-        </div>-->
         <div class="container mb-4">
             <h1>{{$equipo->nombre}}</h1>
         </div>
@@ -26,9 +23,11 @@
             <label>Proveedor de compra: {{$equipo->proveedor_de_compra}}</label><br>
             <a class="btn btn-warning btn-lg btn-block my-2 my-sm-0" href="{{ Session::get('urlAnterior') }}"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a><br>
             @if($equipo->estatus_inventario == "inactivo")
+            @can('inventarioEliminarEquipo')
             <button type="button" class="btn btn-danger btn-lg btn-block" data-toggle="modal" data-target="#modal-delete-{{$equipo->id}}">
                 <i class="fa-solid fa-trash-can"></i> Eliminar equipo permanentemente
             </button>
+            @endcan
             @include('equipos.delete')
             @endif
         </div>

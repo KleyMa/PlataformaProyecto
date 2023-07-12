@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('imagen_principal')->nullable()->default('imagenes/default.jpg');
             $table->string('manual')->nullable();
             $table->string('estatus_inventario')->default('activo');
+            $table->string('codigo_qr')->nullable();
             $table->timestamps();
         });
     }

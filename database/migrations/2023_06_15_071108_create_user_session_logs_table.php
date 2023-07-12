@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('id_usuario');
             $table->string('nombre_usuario');
             $table->timestamp('fecha_login');
-            $table->timestamp('fecha_logout');
+            $table->timestamp('fecha_logout')->nullable()->default(null);
             $table->integer('tiempo_de_sesion');
             $table->timestamps();
         });

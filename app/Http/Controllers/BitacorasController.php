@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Storage;
 
 class BitacorasController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:bitacoras')->only('index', 'buscar');
+        $this->middleware('can:bitacorasVer')->only('show');
+        $this->middleware('can:bitacorasAgregarBitacora')->only('create', 'store');
+        $this->middleware('can:bitacorasEditarBitacora')->only('edit', 'update');
+        $this->middleware('can:bitacorasEliminarBitacora')->only('destroy');
+    }
     public function index(Request $request)
     {
         $bitacoras = Bitacora::all();

@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class ManualsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:manuales')->only('index', 'buscar');
+        $this->middleware('can:manualesVer')->only('show');
+        $this->middleware('can:manualesEditar')->only('edit', 'update');
+        $this->middleware('can:manualesEliminar')->only('destroy');
+    }
     /**
      * Display a listing of the resource.
      */

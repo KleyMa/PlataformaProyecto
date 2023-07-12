@@ -34,26 +34,42 @@
                     <i class="fa-solid fa-toolbox fa-lg"></i> Recursos
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ route('manuales.index') }}"><i class="fa-solid fa-file-pdf fa-lg"></i> Manuales</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ route('imagenes.index') }}"><i class="fa-solid fa-images fa-lg"></i> Imagenes</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ route('imagenes.index') }}"><i class="fa-solid fa-qrcode fa-lg"></i> QR</a>
+                    @can('manuales')
+                        <a class="dropdown-item" href="{{ route('manuales.index') }}"><i class="fa-solid fa-file-pdf fa-lg"></i> Manuales</a>
+                        <div class="dropdown-divider"></div>
+                    @endcan
+                    @can('imagenes')
+                        <a class="dropdown-item" href="{{ route('imagenes.index') }}"><i class="fa-solid fa-images fa-lg"></i> Imagenes</a>
+                        <div class="dropdown-divider"></div>
+                    @endcan
+                    @can('verQRs')
+                        <a class="dropdown-item" href="{{ route('imagenes.index') }}"><i class="fa-solid fa-qrcode fa-lg"></i> QR</a>
+                    @endcan
                 </div>
             </li> <!-- Cerrar la etiqueta li del menú desplegable "Recursos" -->
             @endauth
-            @can('usuarios')
             <li class="nav-item dropdown"> <!-- Abrir una nueva etiqueta li para el menú desplegable "Administrar usuarios" -->
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa-solid fa-users-gear fa-lg"></i> Administrar usuarios
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                    @can('usuarios')
                     <a class="dropdown-item" href="{{ route('usuarios.index') }}"><i class="fa-solid fa-address-book fa-lg"></i> Administrar usuarios</a>
+                    @endcan
+                    @can('roles')
                     <a class="dropdown-item" href="{{ route('roles.index') }}"><i class="fa-solid fa-user-tie fa-lg"></i> Administrar roles</a>
+                    @endcan
+                    @can('RegistrarUsuario')
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ route('registrar') }}"><i class="fa-solid fa-user-plus fa-lg"></i> Registrar usuario</a>
+                    @endcan
                 </div>
             </li> <!-- Cerrar la etiqueta li del menú desplegable "Administrar usuarios" -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ route('estadisticas.index') }}"><i class="fa-solid fa-chart-line fa-lg"></i> Estadisticas <span class="sr-only">(current)</span></a>
+            </li>
+            @can('estadisticas')
+
             @endcan
         </ul>
         @auth
