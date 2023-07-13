@@ -74,7 +74,7 @@ class AuthenticatedSessionController extends Controller
             session()->flash('status', 'La contraseña actual no es correcta.');
             session()->flash('status-class', 'alert-danger');
         }
-        return view('auth.cambiar-password');
+        return to_route('administrarcuenta');
     }
 
     public function changeEmail(){
@@ -96,9 +96,9 @@ class AuthenticatedSessionController extends Controller
             session()->flash('status', 'El email se ha actualizado con éxito.');
             session()->flash('status-class', 'alert-success');
         } else {
-            session()->flash('status', 'La contraseña actual no es correcta.');
+            session()->flash('status', 'La contraseña no es correcta.');
             session()->flash('status-class', 'alert-danger');
         }
-        return view('auth.cambiar-email');
+        return to_route('administrarcuenta');
     }
 }

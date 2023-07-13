@@ -4,12 +4,14 @@
             <h1>{{$equipo->nombre}}</h1>
         </div>
         <div class="container">
+            @can('manualesVer')
             @if($equipo->manual && Storage::exists($equipo->manual))
             <div class="d-md-flex justify-content-md-end">
                 <label class="mr-2">Manual del equipo:</label>
                 <a target="_blank" href="{{Storage::url($equipo->manual)}}"><i class="fa-sharp fa-solid fa-file-pdf fa-2xl"></i></a>
             </div>
             @endif
+            @endcan
             <label>Tipo de equipo: {{$equipo->tipo_de_equipo}}</label><br>
             <label>Descripcion: {{$equipo->descripcion}}</label><br>
             <label>Fabricante: {{$equipo->fabricante}}</label><br>

@@ -64,8 +64,8 @@ Route::resource('/Manuales', ManualsController::class)->names('manuales')->param
 Route::get('/Imagenes/buscar', [ImagesController::class, 'buscar'])->name('images.buscar');
 Route::resource('/Imagenes', ImagesController::class)->names('imagenes')->parameters(['Imagenes' => 'image']);
 
-Route::get('/Roles/buscar', [RoleController::class, 'buscar'])->name('roles.buscar')->middleware('auth');
-Route::resource('/Roles', RoleController::class)->names('roles')->middleware('auth')->parameters(['Roles' => 'role']);
+Route::get('/Roles/buscar', [RoleController::class, 'buscar'])->name('roles.buscar');
+Route::resource('/Roles', RoleController::class)->names('roles')->parameters(['Roles' => 'role']);
 
 Route::get('/AdministrarCuenta', [AdministrarCuentaController::class, 'index'])->name('administrarcuenta')->middleware('auth');
 

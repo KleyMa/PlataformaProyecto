@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Equipo;
 use App\Models\Manual;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Session;
 
 class ManualsController extends Controller
 {
@@ -24,6 +27,17 @@ class ManualsController extends Controller
         return view('manuales.manuales', compact('manuales'));
     }
 
+    public function buscar(Request $request)
+    {
+        $busqueda = $request->input('nombre');
+
+        $manuales = Manual::where('equipo', 'like', '%' . $busqueda . '%')
+        ->orWhere('descripcion', 'like', '%' . $busqueda . '%')
+        ->orWhere('created_at', 'like', '%' . $busqueda . '%')
+        ->get();
+
+        return view('manuales.manuales', compact('manuales'));
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -51,17 +65,43 @@ class ManualsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Manual $manual)
     {
-        //
+        $urlAnterior = url()->previous();
+        Session::put('urlAnterior', $urlAnterior);
+        return view('manuales.edit', ['manual'=>$manual]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Manual $manual)
     {
-        //
+        $user = Auth::user();
+        $equipo = Equipo::where('manual', $manual->ruta)->first();
+        $request->validate([
+            'manual' => ['file', 'mimes:pdf'],
+        ]);
+        
+        $manual->descripcion = $request->descripcion;
+        
+        if ($request->hasFile('manual')) {
+            // Eliminar el archivo anterior
+            Storage::delete($manual->ruta);
+            
+            // Guardar el nuevo archivo
+            $nombreArchivo = $equipo->nombre . '_Manual_' . date('Ymd') . '_' . time() . '.' . $request->file('manual')->getClientOriginalExtension();
+            $manual->ruta = $request->file('manual')->storeAs('public/manuales', $nombreArchivo);
+            $equipo->manual = $manual->ruta;
+        }
+        
+        $manual->save();
+        $equipo->save();
+        
+        //event(new UserActionInventory($user, $equipo , now() , 'Se edito: ' . $equipo->nombre));
+        session()->flash('status', 'Manual editado correctamente.');
+        
+        return redirect()->route('manuales.index');
     }
 
     /**
@@ -69,6 +109,30 @@ class ManualsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-    }
+        $manual = Manual::findOrFail($id);
+        // Obtener la ruta del archivo manual
+        $rutaManual = $manual->ruta;
+
+        // Verificar si el archivo existe en el almacenamiento
+        if (Storage::exists($rutaManual)) {
+            // Eliminar el archivo manual del almacenamiento
+            Storage::delete($rutaManual);
+        }
+
+        // Obtener el equipo relacionado
+        $equipo = Equipo::where('manual', $manual->ruta)->first();
+
+        if ($equipo) {
+            // Actualizar el campo manual del equipo a null
+            $equipo->manual = null;
+            $equipo->save();
+        }
+
+        // Eliminar el registro del manual
+        $manual->delete();
+
+        session()->flash('status', 'El manual se ha eliminado correctamente.');
+
+        return redirect()->route('manuales.index');
+        }
 }

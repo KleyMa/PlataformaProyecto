@@ -111,9 +111,9 @@
                 <small style="color:red"> {{ $message }}</small>
             @enderror
         </div>
-        <button type="submit" class="btn btn-primary">Subir</button>
+        <button type="submit" class="btn btn-primary btn-lg btn-block my-2 my-sm-0"><i class="fa-solid fa-upload"></i> Subir</button>
         @include('autocompletado-equipo')
     </form>
-    <a class="btn btn-outline-warning my-2 my-sm-0" href="{{ route('inventario') }}">Regresar</a><br>
+    <a class="btn btn-warning btn-lg btn-block my-2 my-sm-0" href="{{ route('inventario') }}"><i class="fa-solid fa-circle-arrow-left"></i>  Regresar</a><br>
 </div>
 </x-layouts.app>

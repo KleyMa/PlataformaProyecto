@@ -8,14 +8,20 @@
             <div class="card">
                 <img src="{{Storage::url($imagen->ruta)}}" alt="" class="img-fluid">
                 <div class="card-footer">
+                <h6><center>{{$imagen->equipo}}</h5></center>
+                @if($imagen->descripcion)
+                    <center><p>{{$imagen->descripcion}}</p></center>
+                @endif
+                <center><a class="btn btn-primary" href="{{Storage::url($imagen->ruta)}}" target="_blank"><i class="fa-regular fa-eye"></i></a>
                 @can('imagenesEditar')
-                <a class="btn btn-primary" href="{{ route('imagenes.edit', $imagen) }}">Editar</a>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-update-{{$imagen->id}}"><i class="fa-regular fa-pen-to-square fa-lg"></i></button>
                 @endcan
                 @can('imagenesEliminar')
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$imagen->id}}">Eliminar</button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$imagen->id}}"><i class="fa-regular fa-trash-can fa-lg"></i></button></center>
                 @endcan
                 </div>
             </div>
+            @include('imagenes.edit')
             @include('imagenes.delete')
             @endforeach
         </div>

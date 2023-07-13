@@ -112,11 +112,15 @@ class BitacorasController extends Controller
             'trabajo_terminado' => ['required', 'min:1'],
         ]);
 
-        if ($request->hasFile('bitacora_fisica')) 
-        {
+        if ($request->hasFile('bitacora_fisica')) {
+            // Verificar si existe una bitácora física
+            if ($bitacora->bitacora_fisica) {
+                // Eliminar la bitácora física actual
+                Storage::delete($bitacora->bitacora_fisica);
+            }
             $nombreArchivo = 'Bitacora_' . $bitacora->numero_servicio . '_' . $bitacora->equipo . '_' . date('Ymd') . '_' . time() . '.' . $request->file('bitacora_fisica')->getClientOriginalExtension();
             $bitacora->bitacora_fisica = $request->file('bitacora_fisica')->storeAs('public/bitacoras', $nombreArchivo);
-        }
+        }      
         $bitacora->numero_servicio = $request->input('numero_servicio');
         $bitacora->equipo = $request->input('equipo');
         $bitacora->fecha = $request->input('fecha');

@@ -28,10 +28,10 @@
                 @if($bitacora->bitacora_fisica != null)
                     <div class="btn-group">
                       @can('bitacorasVerBitacoraFisica')
-                      <a href="{{Storage::url($bitacora->bitacora_fisica)}}" class="btn btn-primary"><i class="fa-regular fa-file"></i></a>
+                      <a href="{{Storage::url($bitacora->bitacora_fisica)}}" class="btn btn-primary" target="_blank"><i class="fa-regular fa-file"></i></a>
                       @endcan
                       @can('bitacorasEliminarBitacoraFisica')
-                      <button type="button" target="_blank" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-file-{{$bitacora->id}}"><i class="fa-regular fa-trash-can"></i></button>
+                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-file-{{$bitacora->id}}"><i class="fa-regular fa-trash-can"></i></button>
                       @endcan
                     </div>
                     @include('bitacoras.delete-file')

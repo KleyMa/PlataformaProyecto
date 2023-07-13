@@ -108,7 +108,7 @@
                 <small style="color:red"> {{ $message }}</small>
             @enderror
         </div>
-        <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i> Guardar</button>
+        <button type="submit" class="btn btn-primary btn-lg btn-block my-2 my-sm-0"><i class="fa-regular fa-floppy-disk"></i> Guardar</button>
     </form>
     <a class="btn btn-warning btn-lg btn-block my-2 my-sm-0" href="{{ Session::get('urlAnterior') }}"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a><br>
     </div>

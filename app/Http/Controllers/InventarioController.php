@@ -11,6 +11,7 @@ use App\Models\Bitacora;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\BinaryOp\Equal;
 
@@ -68,6 +69,17 @@ class InventarioController extends Controller
         $user = Auth::user();
         $equipo = new Equipo;
         $equipo = $this->validateInputs($request, $equipo);
+        /*$url = route('equipos.show', $equipo->id);
+        $qr = QrCode::format('png')
+                 ->size(200)
+                 ->generate($url);
+        $qrFileName = 'equipo-' . $equipo->id . '.png';
+        $qrFilePath = 'img/qr-code/' . $qrFileName;
+        Storage::disk('local')->put($qrFilePath, $qr); //storage/app/public/img/qr-code/img-1557309130.png
+
+        // Actualizar la propiedad "codigo_qr" del equipo con la ruta del código QR
+        $equipo->codigo_qr = $qrFilePath;
+        $equipo->save();*/
         event(new UserActionInventory($user, $equipo , now() , 'Se creo: ' . $equipo->nombre));
 
         session()->flash('status','Equipo agregado correctamente.');
@@ -154,14 +166,31 @@ class InventarioController extends Controller
             $imagen->save();
         }
         
-        if($request->hasFile('manual'))
-        {
+        if ($request->hasFile('manual')) {
             $nombreArchivo = $equipo->nombre . '_Manual_' . date('Ymd') . '_' . time() . '.' . $request->file('manual')->getClientOriginalExtension();
-            $equipo->manual = $request->file('manual')->storeAs('public/manuales', $nombreArchivo);
-            $manual = new Manual();
-            $manual->ruta = $equipo->manual;
-            $manual->equipo = $equipo->nombre;
-            $manual->save();
+            
+            // Verificar si existe un manual en el equipo
+            if ($equipo->manual) {
+                $manual = Manual::where('ruta', $equipo->manual)->first();
+                // Eliminar el manual actual
+                Storage::delete($equipo->manual);
+                
+                // Reemplazar los datos del manual existente
+                $equipo->manual = $request->file('manual')->storeAs('public/manuales', $nombreArchivo);
+                
+                // Actualizar la ruta del manual en la tabla de manuales
+                $manual->ruta = $equipo->manual;
+                $manual->equipo = $equipo->nombre;
+                $manual->save();
+            } else {
+                // Crear un nuevo manual en el equipo
+                $equipo->manual = $request->file('manual')->storeAs('public/manuales', $nombreArchivo);
+                
+                $manual = new Manual();
+                $manual->ruta = $equipo->manual;
+                $manual->equipo = $equipo->nombre;
+                $manual->save();
+            }
         }
         $equipo->save();
         return $equipo;

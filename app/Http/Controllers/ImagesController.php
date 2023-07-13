@@ -42,12 +42,36 @@ class ImagesController extends Controller
 
     public function edit(string $id)
     {
-        return view('imagenes.edit');
+        
     }
 
     public function update(Request $request, string $id)
     {
-        //
+        $imagen = Imagen::findOrFail($id);
+        $equipo = Equipo::where('imagen_principal', $imagen->ruta)->first();
+        if ($request->hasFile('imagen_principal')) 
+        {
+            $imagenPrincipalActual = $equipo->imagen_principal;
+            // Eliminar la imagen principal actual si existe
+            if (!empty($imagenPrincipalActual) && $imagenPrincipalActual != 'imagenes/default.jpg') {
+                $imagen = Imagen::where('ruta', $imagenPrincipalActual)->first();
+                $imagen ->delete();
+                // Eliminar la imagen principal del almacenamiento
+                Storage::delete($imagenPrincipalActual);
+                // Eliminar la referencia de la imagen principal del equipo
+                $equipo->imagen_principal = null;
+                $equipo->save();
+            }
+            $nombreArchivo = $equipo->nombre . '_Imagen_' . date('Ymd') . '_' . time() . '.' . $request->file('imagen_principal')->getClientOriginalExtension();
+            $equipo->imagen_principal = $request->file('imagen_principal')->storeAs('public/imagenes', $nombreArchivo);
+            $imagen->ruta = $equipo->imagen_principal;
+            $imagen->equipo = $equipo->nombre;
+        }
+        $imagen->descripcion = $request->descripcion;
+        $equipo->save();
+        $imagen->save();
+        session()->flash('status','Imagen editada correctamente.');
+        return to_route('imagenes.index');
     }
 
     public function destroy(string $id)

@@ -10,7 +10,7 @@ class RoleController extends Controller
 {
     public function __construct()
     {
-        //$this->middleware('can:roles')->only('index', 'buscar');
+        $this->middleware('can:roles')->only('index', 'buscar');
         $this->middleware('can:AgregarRol')->only('create', 'store');
         $this->middleware('can:rolesVer')->only('show');
         $this->middleware('can:rolesEditar')->only('edit', 'update');
