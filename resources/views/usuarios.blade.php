@@ -32,9 +32,10 @@
                         <div class="row">
                           <div class="col">
                             <div class="btn-group">
+                              <!--
                               @can('usuariosVer')
                                 <a class="btn btn-primary" href="{{ route('usuarios.show', $usuario) }}"><i class="fa-regular fa-eye"></i></a>
-                              @endcan
+                              @endcan-->
                               @can('usuariosEditar')
                                 <a class="btn btn-warning" href="{{ route('usuarios.edit', $usuario) }}"><i class="fa-regular fa-pen-to-square"></i></a>
                               @endcan

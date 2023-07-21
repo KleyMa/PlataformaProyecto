@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserActionBitacora;
 use App\Models\Bitacora;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
@@ -49,9 +51,11 @@ class BitacorasController extends Controller
     }
     public function store(Request $request)
     {
+        $user = Auth::user();
         $bitacora = new Bitacora();
         $this->validateInputs($request, $bitacora);
         session()->flash('status','Bitacora agregada correctamente.');
+        event(new UserActionBitacora($user, $bitacora , now() , 'Se creo: ' . $bitacora->numero_servicio));
 
         return to_route('bitacoras.index');
     }
@@ -67,6 +71,8 @@ class BitacorasController extends Controller
     {
         $this->validateInputs($request, $bitacora);
         session()->flash('status','Bitacora editada correctamente.');
+        $user = Auth::user();
+        event(new UserActionBitacora($user, $bitacora , now() , 'Se edito: ' . $bitacora->numero_servicio));
 
         return to_route('bitacoras.index');
     }
@@ -76,6 +82,8 @@ class BitacorasController extends Controller
         $bitacora->delete();
 
         session()->flash('status','Bitacora eliminada correctamente.');
+        $user = Auth::user();
+        event(new UserActionBitacora($user, $bitacora , now() , 'Se elimino: ' . $bitacora->numero_servicio));
 
         return to_route('bitacoras.index');
     }

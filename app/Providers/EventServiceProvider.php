@@ -2,15 +2,23 @@
 
 namespace App\Providers;
 
+use App\Events\UserActionBitacora;
+use App\Events\UserActionImagen;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Logout;
 use App\Events\UserActionInventory;
+use App\Events\UserActionManual;
+use App\Events\UserActionRol;
 use App\Events\UserActionUsers;
+use App\Listeners\LogActionBitacora;
+use App\Listeners\LogActionImagen;
 use App\Listeners\LogUserLogout;
 use App\Listeners\LogActionInventory;
+use App\Listeners\LogActionManual;
+use App\Listeners\LogActionRol;
 use App\Listeners\LogActionUsers;
 
 class EventServiceProvider extends ServiceProvider
@@ -32,6 +40,18 @@ class EventServiceProvider extends ServiceProvider
         ],
         UserActionUsers::class => [
             LogActionUsers::class,
+        ],
+        UserActionBitacora::class => [
+            LogActionBitacora::class,
+        ],
+        UserActionManual::class => [
+            LogActionManual::class,
+        ],
+        UserActionImagen::class => [
+            LogActionImagen::class,
+        ],
+        UserActionRol::class => [
+            LogActionRol::class,
         ]
     ];
 

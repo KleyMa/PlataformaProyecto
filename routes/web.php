@@ -14,6 +14,7 @@ use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\AdministrarCuentaController;
 use App\Http\Controllers\EstadisticasController;
+use App\Http\Controllers\HistorialesController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -79,6 +80,14 @@ Route::post('/change-password/update', [AuthenticatedSessionController::class, '
 
 Route::get('/change-email', [AuthenticatedSessionController::class, 'changeEmail'])->name('usuario.changeemail')->middleware('auth');
 Route::post('/change-email/update', [AuthenticatedSessionController::class, 'updateEmail'])->name('usuario.updateemail')->middleware('auth');
+
+Route::get('/Historiales/Inventario', [HistorialesController::class, 'inventarioLog'])->name('historiales.inventarioLogIndex')->middleware('auth');
+Route::get('/Historiales/Bitacoras', [HistorialesController::class, 'bitacorasLog'])->name('historiales.bitacorasLogIndex')->middleware('auth');
+Route::get('/Historiales/Manuales', [HistorialesController::class, 'manualesLog'])->name('historiales.manualesLogIndex')->middleware('auth');
+Route::get('/Historiales/Imagenes', [HistorialesController::class, 'imagenesLog'])->name('historiales.imagenesLogIndex')->middleware('auth');
+Route::get('/Historiales/Usuarios', [HistorialesController::class, 'usuariosLog'])->name('historiales.usuariosLogIndex')->middleware('auth');
+Route::get('/Historiales/Roles', [HistorialesController::class, 'rolesLog'])->name('historiales.rolesLogIndex')->middleware('auth');
+Route::get('/Historiales/SesionesUsuarios', [HistorialesController::class, 'sesionesUsuariosLog'])->name('historiales.sesionesUsuariosLogIndex')->middleware('auth');
 // Ruta para mostrar el formulario de recuperacion de contraseña
 Route::get('/forgot-password', function () {
     return view('auth.forgot-password');

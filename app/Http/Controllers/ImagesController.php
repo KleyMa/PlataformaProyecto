@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserActionImagen;
 use App\Models\Equipo;
 use App\Models\Imagen;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ImagesController extends Controller
@@ -71,6 +73,8 @@ class ImagesController extends Controller
         $equipo->save();
         $imagen->save();
         session()->flash('status','Imagen editada correctamente.');
+        $user = Auth::user();
+        event(new UserActionImagen($user, $imagen , now() , 'Se edito: ' . $imagen->equipo));
         return to_route('imagenes.index');
     }
 
@@ -90,6 +94,8 @@ class ImagesController extends Controller
         $imagen->delete();
         
         session()->flash('status', 'Imagen eliminada correctamente.');
+        $user = Auth::user();
+        event(new UserActionImagen($user, $imagen , now() , 'Se elimino: ' . $imagen->equipo));
         
         return redirect()->route('imagenes.index');
     }

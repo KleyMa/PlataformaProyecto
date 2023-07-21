@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserActionManual;
 use App\Models\Equipo;
 use App\Models\Manual;
 use Illuminate\Http\Request;
@@ -100,6 +101,8 @@ class ManualsController extends Controller
         
         //event(new UserActionInventory($user, $equipo , now() , 'Se edito: ' . $equipo->nombre));
         session()->flash('status', 'Manual editado correctamente.');
+        $user = Auth::user();
+        event(new UserActionManual($user, $manual , now() , 'Se edito: ' . $manual->equipo));
         
         return redirect()->route('manuales.index');
     }
@@ -132,6 +135,8 @@ class ManualsController extends Controller
         $manual->delete();
 
         session()->flash('status', 'El manual se ha eliminado correctamente.');
+        $user = Auth::user();
+        event(new UserActionManual($user, $manual , now() , 'Se elimino: ' . $manual->equipo));
 
         return redirect()->route('manuales.index');
         }

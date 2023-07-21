@@ -6,15 +6,15 @@
         <form action="{{ route('login')}}" method="POST">
             @csrf
             <div class="form-group">
-              <label for="exampleInputEmail1">Usuario</label>
-              <input type="text" class="form-control" name="usuario" value="{{ old('usuario') }}" placeholder="Ingresa el nombre de usuario.">
+              <label for="usuario">Usuario</label>
+              <input type="text" class="form-control" name="usuario" id="usuario" value="{{ old('usuario') }}" placeholder="Ingresa el nombre de usuario.">
             @error('usuario')
                 <small style="color:red"> {{ $message }}</small>
             @enderror
             </div>
             <div class="form-group">
-              <label for="exampleInputPassword1">Contraseña</label>
-              <input type="password" class="form-control" name="password" value="{{ old('password') }}"placeholder="Ingresa la contraseña.">
+              <label for="contraseña">Contraseña</label>
+              <input type="password" class="form-control" name="password" id="contraseña" value="{{ old('password') }}"placeholder="Ingresa la contraseña.">
                 @error('password')
                     <small style="color:red"> {{ $message }}</small>
                 @enderror
@@ -25,7 +25,9 @@
                     <div><a href="{{ route('password.request') }}">¿Olvidaste tu contraseña?</a><br></div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-right-to-bracket"></i> Iniciar sesion</button>
+            <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-right-to-bracket"></i> Iniciar sesion</button>
           </form>
     </div>
+    </div>
+    
 </x-layout>

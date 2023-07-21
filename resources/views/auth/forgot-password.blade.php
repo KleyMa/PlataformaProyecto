@@ -14,14 +14,8 @@
                 <small style="color:red"> {{ $message }}</small>
             @enderror
             </div>
-            <div class="container">
-              <div class="" style="width: 50%">
-                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-envelope"></i> Enviar correo</button>
-              </div>
-              <div class="mt-3" style="width: 50%">
-                <a class="btn btn-warning my-2 my-sm-0" href="{{ route('login') }}"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a><br>
-              </div>
-            </div>
+            <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-envelope"></i> Enviar correo</button>
+            <a class="btn btn-warning my-2 my-sm-0 btn-block" href="{{ route('login') }}"><i class="fa-solid fa-circle-arrow-left"></i> Regresar</a><br>
           </form>
     </div>
 </x-layout>

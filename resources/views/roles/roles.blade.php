@@ -24,9 +24,10 @@
                         <div class="row">
                         <div class="col">
                             <div class="btn-group">
+                            <!--
                             @can('rolesVer')
                             <a class="btn btn-primary" href="{{ route('roles.show', $role) }}"><i class="fa-regular fa-eye"></i></a>
-                            @endcan
+                            @endcan-->
                             @can('rolesEditar')
                             <a class="btn btn-warning" href="{{ route('roles.edit', $role) }}"><i class="fa-regular fa-pen-to-square"></i></a>
                             @endcan

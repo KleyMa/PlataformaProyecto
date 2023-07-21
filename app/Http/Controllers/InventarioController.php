@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserActionImagen;
 use App\Models\Equipo;
 use App\Models\Imagen;
 use App\Models\Manual;
 use Illuminate\Http\Request;
 use App\Events\UserActionInventory;
+use App\Events\UserActionManual;
 use App\Models\Bitacora;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -151,6 +153,8 @@ class InventarioController extends Controller
             // Eliminar la imagen principal actual si existe
             if (!empty($imagenPrincipalActual) && $imagenPrincipalActual != 'imagenes/default.jpg') {
                 $imagen = Imagen::where('ruta', $imagenPrincipalActual)->first();
+                $user = Auth::user();
+                event(new UserActionImagen($user, $imagen , now() , 'Se elimino: ' . $imagen->equipo));
                 $imagen ->delete();
                 // Eliminar la imagen principal del almacenamiento
                 Storage::delete($imagenPrincipalActual);
@@ -164,6 +168,8 @@ class InventarioController extends Controller
             $imagen->ruta = $equipo->imagen_principal;
             $imagen->equipo = $equipo->nombre;
             $imagen->save();
+            $user = Auth::user();
+            event(new UserActionImagen($user, $imagen , now() , 'Se creo: ' . $imagen->equipo));
         }
         
         if ($request->hasFile('manual')) {
@@ -172,6 +178,8 @@ class InventarioController extends Controller
             // Verificar si existe un manual en el equipo
             if ($equipo->manual) {
                 $manual = Manual::where('ruta', $equipo->manual)->first();
+                $user = Auth::user();
+                event(new UserActionManual($user, $manual , now() , 'Se elimino: ' . $manual->equipo));
                 // Eliminar el manual actual
                 Storage::delete($equipo->manual);
                 
@@ -182,6 +190,8 @@ class InventarioController extends Controller
                 $manual->ruta = $equipo->manual;
                 $manual->equipo = $equipo->nombre;
                 $manual->save();
+                $user = Auth::user();
+                event(new UserActionManual($user, $manual , now() , 'Se edito: ' . $manual->equipo));
             } else {
                 // Crear un nuevo manual en el equipo
                 $equipo->manual = $request->file('manual')->storeAs('public/manuales', $nombreArchivo);
@@ -190,6 +200,8 @@ class InventarioController extends Controller
                 $manual->ruta = $equipo->manual;
                 $manual->equipo = $equipo->nombre;
                 $manual->save();
+                $user = Auth::user();
+                event(new UserActionManual($user, $manual , now() , 'Se creo: ' . $manual->equipo));
             }
         }
         $equipo->save();

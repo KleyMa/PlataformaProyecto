@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserActionRol;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -54,6 +56,8 @@ class RoleController extends Controller
         $role = Role::create($request->all());
 
         $role->permissions()->sync($request->permissions);
+        $user = Auth::user();
+        event(new UserActionRol($user, $role , now() , 'Se creo: ' . $role->name));
 
         return redirect()->route('roles.index')->with('status', 'El rol se ha creado con exito.');
     }
@@ -87,6 +91,8 @@ class RoleController extends Controller
         $role->update($request->all());
 
         $role->permissions()->sync($request->permissions);
+        $user = Auth::user();
+        event(new UserActionRol($user, $role , now() , 'Se edito: ' . $role->name));
 
         return redirect()->route('roles.index')->with('status', 'El rol se ha editado con exito.');
     }
@@ -99,6 +105,8 @@ class RoleController extends Controller
         $role->delete();
 
         session()->flash('status','Rol eliminado correctamente.');
+        $user = Auth::user();
+        event(new UserActionRol($user, $role , now() , 'Se elimino: ' . $role->name));
 
         return to_route('roles.index');
     }
