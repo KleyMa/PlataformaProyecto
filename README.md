@@ -54,7 +54,7 @@ Con PLAGIMED, toda la informacion que subas y almacenes en tu base de datos qued
 ---
 
 ### 🗄️ Inventario Principal
-![Inventario Screenshot](docs/screenshots/inventario.jpg)
+![Inventario Screenshot](docs/screenshots/inventario2.jpg)
 
 ---
 
